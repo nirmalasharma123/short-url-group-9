@@ -2,6 +2,8 @@ const mongoose=require('mongoose')
 const urlSchema = new mongoose.Schema({
    urlCode: {
     type: String,
+    lowercase:true,
+    trim:true,
     required: true,
     unique:true
    },
