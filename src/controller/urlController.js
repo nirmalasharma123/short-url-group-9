@@ -11,7 +11,7 @@ const makeShortUrl = async function (req, res) {
         data.urlCode = shortId.generate();
         data.shortUrl = `localhost:3000/${data.urlCode}`;
 
-        let newShortedUrl = urlModel.create(data);
+        let newShortedUrl = await urlModel.create(data);
 
         return res.status(201).send({ status: true, data: newShortedUrl })
     }
