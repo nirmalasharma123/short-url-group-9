@@ -53,10 +53,10 @@ const makeShortUrl = async function (req, res) {
     data.shortUrl = `localhost:3000/${data.urlCode}`;
 
     let newShortedUrl = await urlModel.create(data);
-    let {urlCode,shortUrl,longUrl}= newShortedUrl
+    let {longUrl,shortUrl,urlCode}= newShortedUrl
 
 
-    await SET_ASYNC(data.longUrl,60,JSON.stringify({longUrl,shortUrl,urlCode,}));
+    await SET_ASYNC(data.longUrl,24*60*60,JSON.stringify({longUrl,shortUrl,urlCode,}));
 
     
 
@@ -80,7 +80,7 @@ const reDirect = async function (req, res) {
     let findUrl = await urlModel.findOne({ urlCode: data }).select({ longUrl: 1, _id: 0 });
     if (!findUrl) return res.status(404).send("can't find url code");
     
-    await SET_ASYNC(data,30,JSON.stringify(findUrl.longUrl));
+    await SET_ASYNC(data,24*60*60,JSON.stringify(findUrl.longUrl));
 
     return res.status(302).redirect(findUrl.longUrl);
   } catch (error) {
