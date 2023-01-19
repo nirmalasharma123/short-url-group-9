@@ -1,4 +1,6 @@
-const mongoose=require('mongoose')
+const mongoose=require('mongoose');
+
+
 const urlSchema = new mongoose.Schema({
    urlCode: {
     type: String,
@@ -9,7 +11,7 @@ const urlSchema = new mongoose.Schema({
    },
    longUrl: {
     type: String,
-      trim:true,
+    trim:true,
     required: true
    },
    shortUrl: {
