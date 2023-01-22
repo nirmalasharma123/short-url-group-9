@@ -34,21 +34,22 @@ const makeShortUrl = async function (req, res) {
       return res.status(400).send({ status: false, message: "URL can't be empty" });
     if (!validUrl.isUri(data.longUrl.trim()))
       return res.status(400).send({ status: false, message: "please put a  valid url" });
-
-    let checkUrl = await axios.get(data.longUrl).then(() => data.longUrl).catch(() => null)
-    if (!checkUrl) return res.status(400).send({ status: false, message: "please enter a valid URL" })
-
+   
     let findDataInCache = await GET_ASYNC(data.longUrl);
     if (findDataInCache) return res.status(200).send({ status: true, data: JSON.parse(findDataInCache) })
 
     let findUrl = await urlModel.findOne({ longUrl: data.longUrl }).select({ longUrl: 1, shortUrl: 1, urlCode: 1, _id: 0 });
+   
+     let checkUrl = await axios.get(data.longUrl).then(() => data.longUrl).catch(() => null)
+    if (!checkUrl) return res.status(400).send({ status: false, message: "please enter a valid URL" })
+
     if (findUrl) {
       await SET_ASYNC(data.longUrl, 24 * 60 * 60, JSON.stringify(findUrl))
       return res.status(200).send({ status: true, data: findUrl })
     };
 
     data.urlCode = shortId.generate().toLowerCase();
-    data.shortUrl = `localhost:3000/${data.urlCode}`;
+    data.shortUrl = `http://localhost:3000/${data.urlCode}`;
     let newShortedUrl = await urlModel.create(data);
     
     let { longUrl, shortUrl, urlCode } = newShortedUrl
