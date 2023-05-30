@@ -49,7 +49,7 @@ const makeShortUrl = async function (req, res) {
     };
 
     data.urlCode = shortId.generate().toLowerCase();
-    data.shortUrl = `http://localhost:3001/${data.urlCode}`;
+    data.shortUrl = `https://url-shotner-8p96.onrender.com/${data.urlCode}`;
     let newShortedUrl = await urlModel.create(data);
     
     let { longUrl, shortUrl, urlCode } = newShortedUrl
