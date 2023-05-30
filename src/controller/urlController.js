@@ -7,11 +7,11 @@ const axios = require("axios")
 
 //----------------------------------1. Connect to the redis server-----------------------------
 const redisClient = redis.createClient(
-  13342,
-  "redis-13342.c301.ap-south-1-1.ec2.cloud.redislabs.com",
+  13991,
+  "redis-13991.c212.ap-south-1-1.ec2.cloud.redislabs.com",
   { no_ready_check: true }
 );
-redisClient.auth("W4JBEi9mAzxjApllYRWwLykeqC3iD9Sn", function (err) {
+redisClient.auth("ElvKBLijkS9N1ps9YWfMU46JiBOias11", function (err) {
   if (err) throw err
 })
 redisClient.on("connect", async function () {
@@ -49,7 +49,7 @@ const makeShortUrl = async function (req, res) {
     };
 
     data.urlCode = shortId.generate().toLowerCase();
-    data.shortUrl = `http://localhost:3000/${data.urlCode}`;
+    data.shortUrl = `http://localhost:3001/${data.urlCode}`;
     let newShortedUrl = await urlModel.create(data);
     
     let { longUrl, shortUrl, urlCode } = newShortedUrl
